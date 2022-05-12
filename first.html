@@ -3,33 +3,79 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
+	<style>
+
+		*, ::before, ::after {
+            margin: 0;
+            padding: 0;
+			box-sizing: border-box;
+		}
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+	        background: linear-gradient(0deg, rgba(253,187,45,1) 0%, rgba(255,255,255,1) 100%);
+        }
+
+        main div#movie {
+            text-align: center;
+            width: 80%;
+            background: rgba( 255, 255, 255, 0.3 );
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur( 8px );
+            border-radius: 10px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            padding: 20px;
+        }
+
+        main div#movie h3 {
+            font-size: 4em;
+            padding: 10px;
+        }
+
+        main div#movie figure {
+            width: 100%;
+            padding: 10px;
+        }
+
+        main div#movie figure img {
+            width: 100%;
+            height: auto;
+        }
+
+	</style>
 </head>
 <body>
 
-<form action="#" method="get">
-	<div>
-		<label for="bgc">Background color</label>
-		<input type="color" name="bgc" id="bgc" onchange="changeBgc(this.form);">
-		<input type="text" name="affichage_bgc">
-	</div>
-	<div>
-		<label for="font">Font color</label>
-		<input type="color" name="font" id="font" onchange="changeFontColor(this.form);">
-		<input type="text" name="affichage_font">
-	</div>
-</form>
+<main>
+	<div id="movie"></div>
+</main>
 
 <script>
 
-	function changeBgc(formulaire) {
-		document.body.style.backgroundColor = formulaire.bgc.value;
-		formulaire.affichage_bgc.value = formulaire.bgc.value;
-	}
+	let inception = {
+		name: "Inception",
+		img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/g1z0zLD8tW94omZdM1NDg9Cb0L5.jpg",
+		date: "21/07/2010",
+		synopsis: "Dom Cobb est un voleur expérimenté, le meilleur dans l'art dangereux de l'extraction, voler les secrets les plus intimes enfouis au plus profond du subconscient durant une phase de rêve, lorsque l'esprit est le plus vulnérable. Les capacités de Cobb ont fait des envieux dans le monde tourmenté de l'espionnage industriel alors qu'il devient fugitif en perdant tout ce qu'il a un jour aimé. Une chance de se racheter lui est alors offerte. Une ultime mission grâce à laquelle il pourrait retrouver sa vie passée mais uniquement s'il parvient à accomplir l'impossible inception."
+	};
 
-	function changeFontColor(formulaire) {
-		document.body.style.color = formulaire.font.value;
-		formulaire.affichage_font.value = formulaire.font.value;
-	}
+	//let movie = document.getElementById("movie"); // Version 1
+	let movie = document.querySelector("main div#movie"); // Version 2
+
+	movie.innerHTML = `
+<div>
+	<h3>${inception.name}</h3>
+	<p>${inception.synopsis}</p>
+	<figure>
+		<img src="${inception.img}" alt="${inception.name}">
+		<figcaption><date>${inception.date}</date></figcaption>
+	</figure>
+</div>
+	`;
 
 </script>
 </body>
