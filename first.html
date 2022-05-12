@@ -8,23 +8,30 @@
 
 <form action="#" name="f" method="get">
 	<div>
-		<label for="color">Passer en Dark</label>
-		<input type="checkbox" name="dark" id="color" onclick="check();">
+		<label for="bgc">Background color</label>
+		<input type="color" name="bgc" id="bgc" onchange="changeBgc();">
+		<input type="text" name="affichage_bgc">
+	</div>
+	<div>
+		<label for="font">Font color</label>
+		<input type="color" name="font" id="font" onchange="changeFontColor();">
+		<input type="text" name="affichage_font">
 	</div>
 </form>
 
 <script>
 	let form = document.f;
 
-	function check() {
-		if (form.dark.checked) {
-			document.body.style.backgroundColor = "#3c3c3c";
-			document.body.style.color = "#fff";
-		} else {
-			document.body.style.backgroundColor = "#fff";
-			document.body.style.color = "#000";
-		}
+	function changeBgc() {
+		document.body.style.backgroundColor = form.bgc.value;
+		form.affichage_bgc.value = form.bgc.value;
 	}
+
+	function changeFontColor() {
+		document.body.style.color = form.font.value;
+		form.affichage_font.value = form.font.value;
+	}
+
 </script>
 </body>
 </html>
