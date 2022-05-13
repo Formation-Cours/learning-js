@@ -3,79 +3,102 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
-	<style>
+  <style type="text/css" media="screen">
+body {
+  font-size: 1.3em;
+}
+div {
+  margin: 10px;
+  padding: 10px;
+}
 
-		*, ::before, ::after {
-            margin: 0;
-            padding: 0;
-			box-sizing: border-box;
-		}
-
-        main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            width: 100vw;
-	        background: linear-gradient(0deg, rgba(253,187,45,1) 0%, rgba(255,255,255,1) 100%);
-        }
-
-        main div#movie {
-            text-align: center;
-            width: 80%;
-            background: rgba( 255, 255, 255, 0.3 );
-            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-            backdrop-filter: blur( 8px );
-            border-radius: 10px;
-            border: 1px solid rgba( 255, 255, 255, 0.18 );
-            padding: 20px;
-        }
-
-        main div#movie h3 {
-            font-size: 4em;
-            padding: 10px;
-        }
-
-        main div#movie figure {
-            width: 100%;
-            padding: 10px;
-        }
-
-        main div#movie figure img {
-            width: 100%;
-            height: auto;
-        }
-
-	</style>
+div label {
+  display: inline-block;
+  width: 150px;
+}
+  div input {
+    outline: none;
+  }
+  </style>
 </head>
 <body>
 
-<main>
-	<div id="movie"></div>
-</main>
+  <form action="" method="get">
+    <div>
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" onkeyup="verifEmail(this);"/>
+    </div>
+    <div>
+      <label for="pwd">Mot de passe</label>
+      <input type="password" name="pwd" id="pwd" onkeyup="verifPwd(this)"/>
+    </div>
+    <div>
+      <input type="checkbox" value="register" name="register" id="register"/>
+      <label for="register">Enregistrer le mot de passe</label>
+    </div>
+    <div>
+      <label for="captcha">Vérification : </label>
+      <span id="captcha_calcul"></span>
+      <input type="text" name="captcha" id="captcha" onkeyup="verifCalcul(this)"/>
+    </div>
+    <div>
+      <button type="submit" id="btn-submit" disabled>Se connecter</button>
+    </div>
+  </form>
 
 <script>
 
-	let inception = {
-		name: "Inception",
-		img: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/g1z0zLD8tW94omZdM1NDg9Cb0L5.jpg",
-		date: "21/07/2010",
-		synopsis: "Dom Cobb est un voleur expérimenté, le meilleur dans l'art dangereux de l'extraction, voler les secrets les plus intimes enfouis au plus profond du subconscient durant une phase de rêve, lorsque l'esprit est le plus vulnérable. Les capacités de Cobb ont fait des envieux dans le monde tourmenté de l'espionnage industriel alors qu'il devient fugitif en perdant tout ce qu'il a un jour aimé. Une chance de se racheter lui est alors offerte. Une ultime mission grâce à laquelle il pourrait retrouver sa vie passée mais uniquement s'il parvient à accomplir l'impossible inception."
-	};
+  let isEmailOk = false;
+  let isPwdOk = false;
+  let resultat;
 
-	//let movie = document.getElementById("movie"); // Version 1
-	let movie = document.querySelector("main div#movie"); // Version 2
+  function verifEmail(tag) {
+    let pattern = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/i;
+    let regex = new RegExp(pattern);
+    if (tag.value.match(regex)) {
+      tag.style.border = "3px solid blue";
+      isEmailOk = true;
+    } else {
+      tag.style.border = "3px solid red";
+      isEmailOk = false;
+    }
+  } 
 
-	movie.innerHTML = `
-<div>
-	<h3>${inception.name}</h3>
-	<p>${inception.synopsis}</p>
-	<figure>
-		<img src="${inception.img}" alt="${inception.name}">
-		<figcaption><date>${inception.date}</date></figcaption>
-	</figure>
-</div>
-	`;
+  function verifPwd(tag) {
+    let pattern = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/;
+    let regex = new RegExp(pattern);
+    if (tag.value.match(regex)) {
+      tag.style.border = "3px solid blue";
+      isPwdOk = true;
+    } else {
+      tag.style.border = "3px solid red";
+      isPwdOk = false;
+    }
+  }
+
+  function verifCalcul(tag) {
+      let btn = document.getElementById('btn-submit');
+      if (resultat === parseInt(tag.value) && isEmailOk && isPwdOk) {
+        btn.disabled = false;
+      } else {
+        btn.disabled = true;
+      }
+  }
+
+  function calcul() {
+    let cap = document.getElementById('captcha_calcul');
+    let a = getRandomArbitrary(-100, 101); 
+    let b = getRandomArbitrary(-100, 101); 
+    let str = `${a} + ${b}`;
+    cap.innerHTML = str;
+    resultat = eval(str);
+  }
+
+  function getRandomArbitrary(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  calcul();
 
 </script>
 </body>
